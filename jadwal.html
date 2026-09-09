@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Jadwal Perkuliahan Mahasiswa Politeknik Negeri Indramayu">
+  <title>Jadwal Kuliah - Politeknik Negeri Indramayu</title>
+  <style>
+    :root {
+      --bg-body: #f8fafc;
+      --bg-surface: #ffffff;
+      --border-subtle: #e2e8f0;
+      --border-strong: #cbd5e1;
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #64748b;
+      --accent-primary: #0284c7;
+      --accent-primary-hover: #0369a1;
+      --accent-subtle: #f0f9ff;
+      --success-bg: #ecfdf5;
+      --success-text: #065f46;
+      --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-stack);
+      background-color: var(--bg-body);
+      color: var(--text-primary);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .header-bar {
+      background-color: var(--bg-surface);
+      border-bottom: 1px solid var(--border-subtle);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-container {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0.875rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--text-primary);
+    }
+
+    .brand-badge {
+      background-color: #0f172a;
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 0.8125rem;
+      padding: 0.35rem 0.65rem;
+      border-radius: var(--radius-sm);
+      letter-spacing: 0.05em;
+    }
+
+    .brand-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--text-primary);
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 0.5rem;
+    }
+
+    .nav-link {
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      padding: 0.5rem 0.875rem;
+      border-radius: var(--radius-sm);
+      transition: all 0.15s ease;
+    }
+
+    .nav-link:hover {
+      color: var(--text-primary);
+      background-color: #f1f5f9;
+    }
+
+    .nav-link.active {
+      color: var(--accent-primary);
+      background-color: var(--accent-subtle);
+      font-weight: 600;
+    }
+
+    .main-wrapper {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 4rem;
+    }
+
+    .page-header {
+      margin-bottom: 2rem;
+    }
+
+    .page-title {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: -0.02em;
+      margin-bottom: 0.375rem;
+    }
+
+    .page-desc {
+      font-size: 0.9375rem;
+      color: var(--text-secondary);
+    }
+
+    .metrics-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .metric-card {
+      background-color: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .metric-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.25rem;
+    }
+
+    .metric-num {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .table-container {
+      background-color: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      overflow-x: auto;
+      margin-bottom: 2rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.875rem;
+    }
+
+    thead {
+      background-color: #f8fafc;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    th {
+      padding: 0.875rem 1.25rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid var(--border-subtle);
+      transition: background-color 0.1s ease;
+    }
+
+    tbody tr:last-child {
+      border-bottom: none;
+    }
+
+    tbody tr:hover {
+      background-color: #f8fafc;
+    }
+
+    td {
+      padding: 1rem 1.25rem;
+      color: var(--text-primary);
+      vertical-align: middle;
+    }
+
+    .course-title {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .course-code {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-family: monospace;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+    }
+
+    .badge-teori {
+      background-color: #f1f5f9;
+      color: #475569;
+    }
+
+    .badge-praktikum {
+      background-color: var(--accent-subtle);
+      color: var(--accent-primary);
+      border: 1px solid #bae6fd;
+    }
+
+    .footer {
+      border-top: 1px solid var(--border-subtle);
+      background-color: var(--bg-surface);
+      padding: 2rem 1.5rem;
+      text-align: center;
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+    }
+
+    .footer-inner {
+      max-width: 1080px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header-bar">
+    <div class="nav-container">
+      <a href="index.html" class="brand">
+        <span class="brand-badge">POLINDRA</span>
+        <span class="brand-title">Portal Akademik Mahasiswa</span>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html" class="nav-link">Beranda</a></li>
+          <li><a href="profil.html" class="nav-link">Profil Mahasiswa</a></li>
+          <li><a href="jadwal.html" class="nav-link active">Jadwal Kuliah</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main-wrapper">
+    <header class="page-header">
+      <h1 class="page-title">Jadwal Perkuliahan Mahasiswa</h1>
+      <p class="page-desc">Semester Gasal 2026/2027 · Program Studi D4 Teknik Informatika · Politeknik Negeri Indramayu</p>
+    </header>
+
+    <div class="metrics-row">
+      <div class="metric-card">
+        <div class="metric-label">Total Beban Studi</div>
+        <div class="metric-num">18 SKS</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Jumlah Mata Kuliah</div>
+        <div class="metric-num">6 MK</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Sesi Praktikum Lab</div>
+        <div class="metric-num">3 Sesi</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Status Verifikasi KRS</div>
+        <div class="metric-num" style="color: #059669; font-size: 1.15rem;">Disetujui Dosen Wali</div>
+      </div>
+    </div>
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Hari</th>
+            <th>Waktu</th>
+            <th>Mata Kuliah</th>
+            <th>Tipe</th>
+            <th>SKS</th>
+            <th>Ruang / Lab</th>
+            <th>Dosen Pengampu</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Senin</strong></td>
+            <td>08:00 - 10:30</td>
+            <td>
+              <div class="course-title">Sistem Terdistribusi</div>
+              <span class="course-code">TI-701</span>
+            </td>
+            <td><span class="badge badge-teori">Teori</span></td>
+            <td>2 SKS</td>
+            <td>Ruang Teori 302</td>
+            <td>Arif Maulana Yusuf</td>
+          </tr>
+          <tr>
+            <td><strong>Senin</strong></td>
+            <td>10:45 - 13:15</td>
+            <td>
+              <div class="course-title">Praktikum Sistem Terdistribusi</div>
+              <span class="course-code">TI-702</span>
+            </td>
+            <td><span class="badge badge-praktikum">Praktikum</span></td>
+            <td>2 SKS</td>
+            <td>Lab Komputer Jaringan</td>
+            <td>Arif Maulana Yusuf</td>
+          </tr>
+          <tr>
+            <td><strong>Selasa</strong></td>
+            <td>08:00 - 11:30</td>
+            <td>
+              <div class="course-title">Keamanan Siber & Jaringan Terdistribusi</div>
+              <span class="course-code">TI-703</span>
+            </td>
+            <td><span class="badge badge-praktikum">Praktikum</span></td>
+            <td>3 SKS</td>
+            <td>Lab Cyber Security</td>
+            <td>Tim Dosen Cyber Security</td>
+          </tr>
+          <tr>
+            <td><strong>Rabu</strong></td>
+            <td>09:00 - 11:30</td>
+            <td>
+              <div class="course-title">Cloud Computing & Virtualisasi</div>
+              <span class="course-code">TI-704</span>
+            </td>
+            <td><span class="badge badge-teori">Teori</span></td>
+            <td>2 SKS</td>
+            <td>Ruang 304</td>
+            <td>Tim Dosen Cloud</td>
+          </tr>
+          <tr>
+            <td><strong>Kamis</strong></td>
+            <td>08:00 - 12:00</td>
+            <td>
+              <div class="course-title">Proyek Rekayasa Perangkat Lunak Terdistribusi</div>
+              <span class="course-code">TI-705</span>
+            </td>
+            <td><span class="badge badge-praktikum">Praktikum</span></td>
+            <td>4 SKS</td>
+            <td>Lab Software Engineering</td>
+            <td>Tim Dosen RPL</td>
+          </tr>
+          <tr>
+            <td><strong>Jumat</strong></td>
+            <td>08:30 - 11:00</td>
+            <td>
+              <div class="course-title">Metodologi Penelitian & Proyek Akhir</div>
+              <span class="course-code">TI-706</span>
+            </td>
+            <td><span class="badge badge-teori">Teori</span></td>
+            <td>3 SKS</td>
+            <td>Auditorium TI</td>
+            <td>Koordinator TA</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div>&copy; 2026 Politeknik Negeri Indramayu. Hak Cipta Dilindungi.</div>
+      <div>Praktikum 2: Sistem Terdistribusi · Modul Git Pull & Remote Sync</div>
+    </div>
+  </footer>
+
+</body>
+</html>
